@@ -1,0 +1,100 @@
+type User{
+  id: ID! @id
+  username: String! @unique
+  email: String! @unique
+  point: Int! @default(value: 0)
+  likes: [Like!]!
+  reviews: [Review!]!
+  phone: String
+}
+type Rest{
+  id: ID! @id
+  menu: [Food!]!
+  name: String!
+  location: String!
+  info: String!
+  phone: String!
+  likes: [Like!]!
+  reviews: [Review!]!
+}
+type Food{
+  id: ID! @id
+  file: FoodFile @relation(link: INLINE)
+  name: String!
+  desc: String!
+  cost: Int!
+  requiredOptions: [RequiredOption!]!
+  radioOptions: [RadioOption!]!
+  numberOptions: [NumberOption!]!
+  checkOptions: [CheckOption!]!
+}
+type Review{
+  id: ID! @id
+  rating: Int!
+  createdAt: DateTime! @createdAt
+  files: [ReviewFile!]!
+}
+type FoodFile{
+  id: ID! @id
+  url: String!
+  food: Food!
+}
+type ReviewFile{
+  id: ID! @id
+  url: String!
+  review: Review!
+}
+type Like{
+  id: ID! @id
+  user: User!
+  rest: Rest!
+}
+type RequiredOption{
+  id: ID! @id
+  name: String!
+  options: [CheckOption!]!
+}
+type OrderRequiredOption{
+  id: ID! @id
+  option: RequiredOption
+  order: CheckOption!
+}
+type RadioOption{
+  id: ID! @id
+  name: String!
+  options: [CheckOption!]!
+}
+type OrderRadioOption{
+  id: ID! @id
+  option: OrderRadioOption!
+  order: CheckOption!
+}
+type NumberOption{
+  id: ID! @id
+  name: String!
+  cost: Int!
+}
+type OrderNumberOption{
+  id: ID! @id
+  option: NumberOption!
+  order: Int!
+}
+type CheckOption{
+  id: ID! @id
+  name: String!
+  cost: Int!
+}
+type OrderCheckOption{
+  id: ID! @id
+  option: CheckOption!
+  order: Boolean!
+}
+type Order{
+  id: ID! @id
+  food: Food!
+  requiredOptions: [OrderRequiredOption!]!
+  radioOptions: [OrderRadioOption!]!
+  numberOptions: [OrderNumberOption!]!
+  checkOptions: [OrderCheckOption!]!
+  count: Int!
+}
