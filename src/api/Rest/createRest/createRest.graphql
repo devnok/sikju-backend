@@ -1,0 +1,8 @@
+type Mutation{
+    createRest(
+        name: String!
+        info: String
+        phone: String!
+        location: LocationInput!
+    ): Rest!
+}

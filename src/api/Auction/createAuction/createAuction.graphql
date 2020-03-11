@@ -1,0 +1,7 @@
+type Mutation{
+    createAuction(
+        n: Int!
+        text: String
+        location: LocationInput!
+    ): Auction!
+}

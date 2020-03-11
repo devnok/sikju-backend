@@ -1,0 +1,3 @@
+type Query{
+    login(id: String!): String!
+}

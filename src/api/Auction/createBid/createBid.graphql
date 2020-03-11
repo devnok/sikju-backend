@@ -1,0 +1,6 @@
+type Mutation{
+    createBid(
+        auction_id: String!
+        service: String!
+    ): Bid!
+}

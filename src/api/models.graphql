@@ -1,0 +1,84 @@
+type User{
+  id: ID!
+  username: String!
+  phone: String!
+  point: Int!
+  reviews: [Review!]!
+  restUser: RestUser
+  loginSecret: String
+}
+type Rest{
+  id: ID!
+  menu: [Food!]!
+  name: String!
+  info: String!
+  phone: String!
+  reviews: [Review!]!
+  location: Location!
+  services: [Service!]!
+  restUser: RestUser!
+}
+type RestUser{
+  id: ID!
+  rest: Rest!
+  user: User!
+}
+type Food{
+  id: ID!
+  file: FoodFile
+  name: String!
+  desc: String!
+  cost: Int!
+  options: [Option!]!
+}
+type Option{
+  id: ID!
+  title: String!
+  text: String!
+}
+type Review{
+  id: ID!
+  rating: Int!
+  createdAt: String!
+  files: [ReviewFile!]!
+}
+type FoodFile{
+  id: ID!
+  url: String!
+  food: Food!
+}
+type ReviewFile{
+  id: ID!
+  url: String!
+  review: Review!
+}
+type Location{
+  id: ID!
+  latitude: Float!
+  longitude: Float!
+}
+input LocationInput{
+    latitude: Float!
+    longitude: Float!
+}
+type Auction{
+  id: ID!
+  location: Location!
+  n: Int!
+  text: String!
+  owner: User!
+  createdAt: String!
+  bids: [Bid!]!
+  winningBid: Bid
+}
+type Bid{
+  id: ID!
+  auction: Auction!
+  service: String!
+  restUser: RestUser!
+}
+type Service{
+  id: ID!
+  restUser: RestUser!
+  text: String!
+}

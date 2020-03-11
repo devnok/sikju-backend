@@ -1,21 +1,33 @@
 type User{
   id: ID! @id
   username: String! @unique
-  email: String! @unique
+  phone: String! @unique
   point: Int! @default(value: 0)
-  likes: [Like!]!
   reviews: [Review!]!
-  phone: String
+  restUser: RestUser @relation(link: INLINE, name: "UserRestUser", onDelete: CASCADE)
+  loginSecret: String
 }
 type Rest{
   id: ID! @id
   menu: [Food!]!
   name: String!
-  location: String!
   info: String!
-  phone: String!
-  likes: [Like!]!
+  phone: String
   reviews: [Review!]!
+  files: [RestFile!]!
+  location: Location! @unique
+  services: [Service!]!
+  restUser: RestUser! @relation(name: "RestUserRest", onDelete: SET_NULL)
+}
+type RestFile{
+  id: ID! @id
+  url: String!
+  rest: Rest!
+}
+type RestUser{
+  id: ID! @id
+  rest: Rest! @unique @relation(link: INLINE, name: "RestUserRest", onDelete: CASCADE)
+  user: User! @unique @relation(name: "UserRestUser", onDelete: SET_NULL)
 }
 type Food{
   id: ID! @id
@@ -23,10 +35,12 @@ type Food{
   name: String!
   desc: String!
   cost: Int!
-  requiredOptions: [RequiredOption!]!
-  radioOptions: [RadioOption!]!
-  numberOptions: [NumberOption!]!
-  checkOptions: [CheckOption!]!
+  options: [Option!]!
+}
+type Option{
+  id: ID! @id
+  title: String!
+  text: String! @default(value: "")
 }
 type Review{
   id: ID! @id
@@ -44,57 +58,29 @@ type ReviewFile{
   url: String!
   review: Review!
 }
-type Like{
+type Location{
   id: ID! @id
-  user: User!
-  rest: Rest!
+  latitude: Float!
+  longitude: Float!
 }
-type RequiredOption{
+type Auction{
   id: ID! @id
-  name: String!
-  options: [CheckOption!]!
+  location: Location!
+  n: Int!
+  text: String! @default(value: "")
+  owner: User!
+  createdAt: DateTime! @createdAt
+  bids: [Bid!]!
 }
-type OrderRequiredOption{
+type Bid{
   id: ID! @id
-  option: RequiredOption
-  order: CheckOption!
+  auction: Auction!
+  service: String!
+  restUser: RestUser!
+  win: Boolean
 }
-type RadioOption{
+type Service{
   id: ID! @id
-  name: String!
-  options: [CheckOption!]!
-}
-type OrderRadioOption{
-  id: ID! @id
-  option: OrderRadioOption!
-  order: CheckOption!
-}
-type NumberOption{
-  id: ID! @id
-  name: String!
-  cost: Int!
-}
-type OrderNumberOption{
-  id: ID! @id
-  option: NumberOption!
-  order: Int!
-}
-type CheckOption{
-  id: ID! @id
-  name: String!
-  cost: Int!
-}
-type OrderCheckOption{
-  id: ID! @id
-  option: CheckOption!
-  order: Boolean!
-}
-type Order{
-  id: ID! @id
-  food: Food!
-  requiredOptions: [OrderRequiredOption!]!
-  radioOptions: [OrderRadioOption!]!
-  numberOptions: [OrderNumberOption!]!
-  checkOptions: [OrderCheckOption!]!
-  count: Int!
+  restUser: RestUser!
+  text: String!
 }
