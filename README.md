@@ -13,6 +13,8 @@ SIkju with NodeJS + Prisma + GraphQL
 - [x] allUsers
 - [ ] Like a Rest
 - [x] select winning Bid
+- [ ] print Coupon
+- [ ] list Coupon
 
 ## RestUser Stories
 
@@ -20,6 +22,7 @@ SIkju with NodeJS + Prisma + GraphQL
 - [x] Bid
 - [ ] subscribe winning Bid
 - [ ] register lost things
+- [ ] check Coupon
 
 ## Rest Stories
 
@@ -30,7 +33,8 @@ SIkju with NodeJS + Prisma + GraphQL
 - [ ] view User that Like this Rest
 
 ## setting
-### aws setting
+
+### AWS setting
 + Link : <https://docs.aws.amazon.com/ko_kr/sdk-for-javascript/v2/developer-guide/getting-started-nodejs.html>
 + Linux, Unix, macOS :
 ```~/.aws/credentials``` 에 공유자격 증명파일(.csv) 저장
