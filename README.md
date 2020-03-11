@@ -8,6 +8,7 @@ SIkju with NodeJS + Prisma + GraphQL
 - [x] log in
 - [x] create auction
 - [ ] list created Auction
+- [ ] view Auction Info
 - [x] add Review
 - [x] allUsers
 - [ ] Like a Rest
@@ -18,6 +19,7 @@ SIkju with NodeJS + Prisma + GraphQL
 - [x] auction subscribe nearby location
 - [x] Bid
 - [ ] subscribe winning Bid
+- [ ] register lost things
 
 ## Rest Stories
 
