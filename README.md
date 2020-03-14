@@ -5,6 +5,7 @@ SIkju with NodeJS + Prisma + GraphQL
 ## User Stories
 
 - [x] create account
+- [ ] create account from OAUTH
 - [x] log in
 - [x] create auction
 - [ ] list created Auction

@@ -2,10 +2,25 @@ type User{
   id: ID! @id
   username: String! @unique
   phone: String! @unique
+  password: String
   point: Int! @default(value: 0)
   reviews: [Review!]!
   restUser: RestUser @relation(link: INLINE, name: "UserRestUser", onDelete: CASCADE)
-  loginSecret: String
+  identity: Identity @relation(link: INLINE, name: "UserIdentity", onDelete: CASCADE) @unique
+  email: String
+  age_range: String
+  birthday: DateTime
+  gender: String
+}
+type Identity{
+  id: ID! @id
+  token: String!
+  user: User! @relation(name: "UserIdentity")
+  provider: Provider!
+}
+enum Provider{
+  FACEBOOK
+  KAKAO
 }
 type Rest{
   id: ID! @id
@@ -17,7 +32,7 @@ type Rest{
   files: [RestFile!]!
   location: Location! @unique
   services: [Service!]!
-  restUser: RestUser! @relation(name: "RestUserRest", onDelete: SET_NULL)
+  restUser: RestUser! @relation(name: "RestUserRest")
 }
 type RestFile{
   id: ID! @id
@@ -27,7 +42,7 @@ type RestFile{
 type RestUser{
   id: ID! @id
   rest: Rest! @unique @relation(link: INLINE, name: "RestUserRest", onDelete: CASCADE)
-  user: User! @unique @relation(name: "UserRestUser", onDelete: SET_NULL)
+  user: User! @unique @relation(name: "UserRestUser")
 }
 type Food{
   id: ID! @id
@@ -83,4 +98,9 @@ type Service{
   id: ID! @id
   restUser: RestUser!
   text: String!
+}
+type Secret{
+  id: ID! @id
+  phone: String! @unique
+  secret: String!
 }

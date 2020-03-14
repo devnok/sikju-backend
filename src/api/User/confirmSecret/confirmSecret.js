@@ -5,16 +5,14 @@ import { sendMessage } from "../../../lib";
 export default {
   Mutation: {
     confirmSecret: async (_, args) => {
-      const { phone, secret } = args;
-      const user = await prisma.user({ phone });
-      if(user.loginSecret === secret){
-        await prisma.updateUser({
-          data: { loginSecret: "" },
-          where: { id: user.id }
-        });
-        return generateToken(user.id);
+      const { phone, secret: secretCode } = args;
+      const secret = await prisma.secret({ phone });
+      if(secret.secret === secretCode){
+        await prisma.deleteSecret({ id: secret.id });
+        return true;
       } else {
-        throw Error("잘못된 인증번호입니다.")
+        console.log("잘못된 인증번호를 보냄.");
+        return false;
       }
     }
   }

@@ -1,11 +1,27 @@
 type User{
   id: ID!
   username: String!
-  phone: String!
+  phone: String
+  password: String
   point: Int!
   reviews: [Review!]!
   restUser: RestUser
   loginSecret: String
+  identity: Identity
+  email: String
+  age_range: String
+  birthday: String
+  gender: String
+}
+type Identity{
+  id: ID!
+  token: String!
+  user: User!
+  provider: Provider!
+}
+enum Provider{
+  FACEBOOK
+  KAKAO
 }
 type Rest{
   id: ID!
@@ -81,4 +97,10 @@ type Service{
   id: ID!
   restUser: RestUser!
   text: String!
+}
+
+type Secret{
+  id: ID!
+  phone: String!
+  secret: String!
 }

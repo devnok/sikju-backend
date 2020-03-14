@@ -1,0 +1,6 @@
+type Mutation{
+    authFacebook(
+        access_token: String!
+        phone: String!
+    ): String!
+}

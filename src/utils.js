@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 
 export const generateToken = id => jwt.sign({ id }, process.env.JWT_SECRET)
 
@@ -23,3 +24,5 @@ export const lnlrange = (location, distance) => { // x, y는 경위도로 나타
         maxLat, minLat, maxLon, minLon
     };
 }
+export const generateHash = password => bcrypt.hash(password, Number(process.env.BCRYPT_SALT))
+export const compareHash = (password, hash) => bcrypt.compare(password, hash)

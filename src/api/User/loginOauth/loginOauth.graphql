@@ -1,0 +1,6 @@
+type Query{
+    loginOauth(
+        provider: String!
+        token: String!
+    ): String!
+}

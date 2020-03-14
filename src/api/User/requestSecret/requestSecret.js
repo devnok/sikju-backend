@@ -6,10 +6,13 @@ export default {
 	Mutation: {
 		requestSecret: async (_, args) => {
 			const { phone } = args;
-			const loginSecret = generateSecret(4);
+			const secret = generateSecret(4);
 			try {
-				await prisma.updateUser({ data: { loginSecret }, where: { phone } });
-				await sendMessage(phone, `[의식주] 인증코드는 [${loginSecret}] 입니다.`);
+				await prisma.createSecret({
+					phone,
+					secret
+				})
+				await sendMessage(phone, `[의식주] 인증코드는 [${secret}] 입니다.`);
 				return true;
 			} catch (e) {
 				console.log(e);

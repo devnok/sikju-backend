@@ -1,7 +1,8 @@
 type Mutation{
     createAccount(
         username: String!
-        phone: String!
         point: Int
+        password: String!
+        phone: String!
     ): User!
 }

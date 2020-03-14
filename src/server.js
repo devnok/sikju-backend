@@ -9,7 +9,7 @@ import { isAuthenticated } from './middlewares'
 
 const port = process.env.PORT || 4000;
 
-const server = new GraphQLServer({ schema, context: ({request}) =>  ({request, isAuthenticated}) });
+const server = new GraphQLServer({ schema, context: ({request, response}) =>  ({request, isAuthenticated, response}) });
 server.express.use(logger("dev"));
 server.express.use(authenticateJwt);
 
