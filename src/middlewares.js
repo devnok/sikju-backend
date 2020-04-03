@@ -4,3 +4,7 @@ export const isAuthenticated = req => {
     }
     return;
 }
+import { ApolloError } from 'apollo-server'
+export const throwError = (msg, code) => {
+    throw new ApolloError(msg, code);
+}

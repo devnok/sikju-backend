@@ -1,6 +1,7 @@
 type User{
   id: ID!
   username: String!
+  name: String
   phone: String
   password: String
   point: Int!
@@ -9,9 +10,33 @@ type User{
   loginSecret: String
   identity: Identity
   email: String
+  facebookId: String
+  kakaoId: String
   age_range: String
   birthday: String
-  gender: String
+  gender: Gender
+  phoneConfirmed: Boolean!
+  likes: [Like!]!
+  coupons: [Coupon!]!
+}
+type Coupon{
+  id: ID!
+  title: String!
+  user: User!
+  rest: Rest!
+  desc: String
+  warn: String
+  created_at: String!
+  validTime: String!
+}
+enum Gender{
+  FEMALE
+  MALE
+}
+type Like {
+  id: ID!
+  user: User
+  rest: Rest
 }
 type Identity{
   id: ID!
@@ -29,10 +54,29 @@ type Rest{
   name: String!
   info: String!
   phone: String!
+  coupons: [Coupon!]!
   reviews: [Review!]!
+  likes: [Like!]!
+  files: [RestFile!]!
   location: Location!
-  services: [Service!]!
-  restUser: RestUser!
+  restUser: RestUser
+  likeCount: Int!
+  reviewCount: Int!
+  isLiked: Boolean!
+  couponInput: CouponInput
+}
+type CouponInput{
+  id: ID!
+  rest: Rest!
+  title: String
+  desc: String
+  warn: String
+  validTime: Int!
+}
+type RestFile{
+  id: ID!
+  url: String!
+  rest: Rest!
 }
 type RestUser{
   id: ID!
@@ -55,18 +99,22 @@ type Option{
 type Review{
   id: ID!
   rating: Int!
-  createdAt: String!
   files: [ReviewFile!]!
-}
-type FoodFile{
-  id: ID!
-  url: String!
-  food: Food!
+  created_at: String!
+  updated_at: String!
+  text: String!
+  user: User
+  rest: Rest
 }
 type ReviewFile{
   id: ID!
   url: String!
   review: Review!
+}
+type FoodFile{
+  id: ID!
+  url: String!
+  food: Food!
 }
 type Location{
   id: ID!
@@ -83,7 +131,7 @@ type Auction{
   n: Int!
   text: String!
   owner: User!
-  createdAt: String!
+  created_at: String!
   bids: [Bid!]!
   winningBid: Bid
 }
@@ -93,14 +141,11 @@ type Bid{
   service: String!
   restUser: RestUser!
 }
-type Service{
+type Event{
   id: ID!
-  restUser: RestUser!
-  text: String!
-}
-
-type Secret{
-  id: ID!
-  phone: String!
-  secret: String!
+  url: String!
+  thumnail: String!
+  created_at: String!
+  start_at: String!
+  expire_at: String!
 }

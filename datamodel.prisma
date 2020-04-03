@@ -1,21 +1,47 @@
 type User{
   id: ID! @id
+  name: String
   username: String! @unique
-  phone: String! @unique
+  phone: String @unique
   password: String
   point: Int! @default(value: 0)
-  reviews: [Review!]!
   restUser: RestUser @relation(link: INLINE, name: "UserRestUser", onDelete: CASCADE)
   identity: Identity @relation(link: INLINE, name: "UserIdentity", onDelete: CASCADE) @unique
+  facebookId: String @unique
+  kakaoId: String @unique
+  secret: String
   email: String
   age_range: String
   birthday: DateTime
-  gender: String
+  gender: Gender
+  phoneConfirmed: Boolean! @default(value: false)
+  reviews: [Review!]! @relation(name: "ReviewsOfUser", onDelete: CASCADE)
+  likes: [Like!]! @relation(name: "LikesOfUser", onDelete: CASCADE)
+  coupons: [Coupon!]! @relation(name: "CouponsOfUser", onDelete: CASCADE)
+}
+type Coupon{
+  id: ID! @id
+  title: String!
+  user: User! @relation(name: "CouponsOfUser", onDelete: SET_NULL)
+  rest: Rest! @relation(name: "CouponsOfRest", onDelete: SET_NULL)
+  desc: String
+  warn: String
+  created_at: DateTime! @createdAt
+  validTime: Int! @default(value: 168)
+}
+enum Gender{
+  FEMALE
+  MALE
+}
+type Like {
+  id: ID! @id
+  user: User @relation(name: "LikesOfUser")
+  rest: Rest @relation(name: "LikeOfRest")
 }
 type Identity{
   id: ID! @id
   token: String!
-  user: User! @relation(name: "UserIdentity")
+  user: User! @relation(name: "UserIdentity") @unique
   provider: Provider!
 }
 enum Provider{
@@ -28,21 +54,32 @@ type Rest{
   name: String!
   info: String!
   phone: String
-  reviews: [Review!]!
-  files: [RestFile!]!
-  location: Location! @unique
-  services: [Service!]!
-  restUser: RestUser! @relation(name: "RestUserRest")
+  coupons: [Coupon!]! @relation(name: "CouponsOfRest", onDelete: CASCADE)
+  likes: [Like!]! @relation(name: "LikeOfPost", onDelete: CASCADE)
+  reviews: [Review!]! @relation(name: "ReviewsOfRest", onDelete: CASCADE)
+  files: [RestFile!]! @relation(name: "FilesOfRest", onDelete: CASCADE)
+  location: Location! @unique @relation(onDelete: CASCADE)
+  restUser: RestUser @relation(name: "RestUserRest")
+  couponInput: CouponInput @relation(name: "CouponInputOfRest", link: INLINE)
+}
+type CouponInput{
+  id: ID! @id
+  rest: Rest! @relation(name: "CouponInputOfRest")
+  title: String
+  desc: String
+  warn: String
+  validTime: Int! @default(value: 168) #시간 단위
 }
 type RestFile{
   id: ID! @id
   url: String!
-  rest: Rest!
+  rest: Rest! @relation(name: "FilesOfRest")
 }
 type RestUser{
   id: ID! @id
   rest: Rest! @unique @relation(link: INLINE, name: "RestUserRest", onDelete: CASCADE)
-  user: User! @unique @relation(name: "UserRestUser")
+  user: User! @unique @relation(name: "UserRestUser", onDelete: SET_NULL)
+  bids: [Bid!]!
 }
 type Food{
   id: ID! @id
@@ -57,21 +94,25 @@ type Option{
   title: String!
   text: String! @default(value: "")
 }
-type Review{
-  id: ID! @id
-  rating: Int!
-  createdAt: DateTime! @createdAt
-  files: [ReviewFile!]!
-}
 type FoodFile{
   id: ID! @id
   url: String!
   food: Food!
 }
+type Review{
+  id: ID! @id
+  rating: Int!
+  files: [ReviewFile!]! @relation(name: "FilesOfReview", onDelete: CASCADE)
+  created_at: DateTime! @createdAt
+  updated_at: DateTime! @updatedAt
+  text: String!
+  user: User @relation(name: "ReviewsOfUser")
+  rest: Rest @relation(name: "ReviewsOfRest")
+}
 type ReviewFile{
   id: ID! @id
   url: String!
-  review: Review!
+  review: Review! @relation(name: "FilesOfReview")
 }
 type Location{
   id: ID! @id
@@ -80,11 +121,11 @@ type Location{
 }
 type Auction{
   id: ID! @id
-  location: Location!
+  location: Location! @relation(onDelete: CASCADE)
   n: Int!
   text: String! @default(value: "")
   owner: User!
-  createdAt: DateTime! @createdAt
+  created_at: DateTime! @createdAt
   bids: [Bid!]!
 }
 type Bid{
@@ -94,13 +135,16 @@ type Bid{
   restUser: RestUser!
   win: Boolean
 }
-type Service{
-  id: ID! @id
-  restUser: RestUser!
-  text: String!
-}
 type Secret{
   id: ID! @id
   phone: String! @unique
   secret: String!
+}
+type Event{
+  id: ID! @id
+  url: String!
+  thumnail: String!
+  created_at: DateTime! @createdAt
+  start_at: DateTime!
+  expire_at: DateTime!
 }

@@ -1,6 +1,6 @@
 import AWS from 'aws-sdk';
 
-AWS.config.update({region: process.env.AWS_REGION});
+AWS.config.update({region: process.env.AWS_MESSAGE_REGION});
 
 export const sendMessage = (phone, text) => {
     const params = {

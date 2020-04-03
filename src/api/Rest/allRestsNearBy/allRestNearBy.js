@@ -5,7 +5,7 @@ export default{
     Query: {
         allRestNearBy: (_, args) => {
             const { distance = 1.0, location } = args; // distance는 km단위
-
+            console.log(args);
 
             const {
                 maxLat, minLat, maxLon, minLon

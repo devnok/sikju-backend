@@ -18,17 +18,18 @@ export default{
                 throw Error("이미 가입된 사용자 / 휴대전화 입니다.");
             }
             let user;
-            if( provider == 'facebook' ) {
-                const url = `https://graph.facebook.com/me?access_token=${token}`;
+            if( provider == 'FACEBOOK' ) {
+                const url = `https://graph.facebook.com/me?access_token=${token}&fields=id,age_range,name`;
                 const res = await fetch(url);
-                const { name } = await res.json();
+                const { id, name } = await res.json();
                 user = await prisma.createUser({
                     username: name,
                     phone,
                     point,
+                    facebookId: id,
                     identity: {
                         create: {
-                            token, provider: provider.toUpperCase()
+                            token, provider
                         }
                     }
                 });
