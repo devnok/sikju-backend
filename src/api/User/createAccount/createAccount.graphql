@@ -1,8 +1,0 @@
-type Mutation{
-    createAccount(
-        username: String!
-        point: Int
-        password: String!
-        phone: String!
-    ): User!
-}

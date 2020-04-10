@@ -1,9 +1,10 @@
 type Mutation{
     editRest(
         id: String!
-        name: String!
-        info: String!
-        phone: String!
-        location: LocationInput!
+        name: String
+        info: String
+        phone: String
+        files: [String!]!
+        location: LocationInput
     ): Rest!
 }

@@ -2,8 +2,8 @@ import { prisma } from "../../../generated/prisma-client";
 
 export default {
     User: {
-        restUser: ({id}) => prisma.user({ id }).restUser(),
-        identity: ({id}) => prisma.user({ id }).identity(),
+        link: ({id}) => prisma.user({ id }).link(),
         coupons: ({id}) => prisma.user({ id }).coupons(),
+        likes: ({id}) => prisma.user({ id }).likes()
     }
 }

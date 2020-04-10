@@ -20,19 +20,11 @@ export default {
               ]
             });
           },
-        couponInput: ({id}) => prisma.rest({id}).couponInput(),
+        service: ({id}) => prisma.rest({id}).service(),
         coupons: ({id}) => prisma.rest({id}).coupons(),
-        reviews: ({id}) => prisma.rest({id}).reviews(),
         likeCount: ({id}) =>
             prisma
                 .likesConnection({
-                    where: { rest: { id } }
-                })
-                .aggregate()
-                .count(),
-        reviewCount: ({id}) =>
-            prisma
-                .reviewsConnection({
                     where: { rest: { id } }
                 })
                 .aggregate()

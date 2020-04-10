@@ -1,6 +1,0 @@
-type Query{
-    login(
-        phone: String!
-        password: String!
-    ): String!
-}

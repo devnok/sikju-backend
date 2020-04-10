@@ -1,151 +1,93 @@
-type User{
+type User {
   id: ID!
-  username: String!
-  name: String
-  phone: String
-  password: String
-  point: Int!
-  reviews: [Review!]!
-  restUser: RestUser
-  loginSecret: String
-  identity: Identity
-  email: String
-  facebookId: String
-  kakaoId: String
-  age_range: String
-  birthday: String
-  gender: Gender
-  phoneConfirmed: Boolean!
-  likes: [Like!]!
+  createdAt: String!
+  nickname: String
+  phone: String!
+  profile: Profile!
+  link: AccountLink
   coupons: [Coupon!]!
-}
-type Coupon{
-  id: ID!
-  title: String!
-  user: User!
-  rest: Rest!
-  desc: String
-  warn: String
-  created_at: String!
-  validTime: String!
-}
-enum Gender{
-  FEMALE
-  MALE
-}
-type Like {
-  id: ID!
-  user: User
-  rest: Rest
-}
-type Identity{
-  id: ID!
-  token: String!
-  user: User!
-  provider: Provider!
+  likes: [Like!]!
 }
 enum Provider{
-  FACEBOOK
-  KAKAO
+    KAKAO
+    FACEBOOK
+}
+type AccountLink{
+  id: ID!
+  user: User!
+  kakaoId: String
+  facebookId: String
+}
+type Profile{
+  id: ID!
+  user: User!
+  name: String
+  birthday: String
+  gender: Gender
+  email: String
+}
+enum Gender{
+  MALE
+  FEMALE
 }
 type Rest{
   id: ID!
-  menu: [Food!]!
-  name: String!
-  info: String!
-  phone: String!
-  coupons: [Coupon!]!
-  reviews: [Review!]!
-  likes: [Like!]!
-  files: [RestFile!]!
   location: Location!
-  restUser: RestUser
-  likeCount: Int!
-  reviewCount: Int!
-  isLiked: Boolean!
-  couponInput: CouponInput
-}
-type CouponInput{
-  id: ID!
-  rest: Rest!
-  title: String
+  name: String!
+  phone: String
   desc: String
+  openAt: String
+  closeAt: String
+  files: [File!]!
+  thumbnail: String!
+  service: CouponForm!
+  likes: [Like!]!
+  isLiked: Boolean
+  coupons: [Coupon!]!
+  likeCount: Int!
+}
+type Location {
+  id: ID!
+  longitude: Float!
+  latitdue: Float!
+}
+type File{
+  id: ID!
+  url: String!
+  rest: Rest!
+}
+input LocationInput {
+  longitude: Float!
+  latitude: Float!
+}
+type CouponForm {
+  id: ID!
+  rest: Rest
+  service: String!
+  desc: String!
   warn: String
   validTime: Int!
 }
-type RestFile{
-  id: ID!
-  url: String!
-  rest: Rest!
-}
-type RestUser{
+type Coupon {
   id: ID!
   rest: Rest!
-  user: User!
-}
-type Food{
-  id: ID!
-  file: FoodFile
-  name: String!
-  desc: String!
-  cost: Int!
-  options: [Option!]!
-}
-type Option{
-  id: ID!
-  title: String!
-  text: String!
-}
-type Review{
-  id: ID!
-  rating: Int!
-  files: [ReviewFile!]!
-  created_at: String!
-  updated_at: String!
-  text: String!
-  user: User
-  rest: Rest
-}
-type ReviewFile{
-  id: ID!
-  url: String!
-  review: Review!
-}
-type FoodFile{
-  id: ID!
-  url: String!
-  food: Food!
-}
-type Location{
-  id: ID!
-  latitude: Float!
-  longitude: Float!
-}
-input LocationInput{
-    latitude: Float!
-    longitude: Float!
-}
-type Auction{
-  id: ID!
-  location: Location!
-  n: Int!
-  text: String!
-  owner: User!
-  created_at: String!
-  bids: [Bid!]!
-  winningBid: Bid
-}
-type Bid{
-  id: ID!
-  auction: Auction!
   service: String!
-  restUser: RestUser!
+  desc: String!
+  warn: String
+  user: User!
+  createdAt: String!
+  expireAt: String!
 }
-type Event{
+type Like {
+  id: ID!
+  user: User!
+  rest: Rest!
+}
+type Event {
   id: ID!
   url: String!
-  thumnail: String!
-  created_at: String!
-  start_at: String!
-  expire_at: String!
+  thumbnail: String!
+  createdAt: String!
+  startAt: String!
+  expireAt: String!
 }

@@ -1,8 +1,0 @@
-type Mutation{
-    createOauthAccount(
-        point: Int
-        provider: String!
-        token: String!
-        phone: String!
-    ): User!
-}

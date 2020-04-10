@@ -3,15 +3,12 @@ import { prisma } from "../../../../generated/prisma-client";
 export default {
     Mutation: {
         editRest: async (_, args, {request, isAuthenticated}) => {
-            isAuthenticated(request);
-            const { id, name, info, phone, location } = args;
-            const { user } = request;
-            const ruser = await prisma.user({ id: user.id }).restUser()
-            const rest = await prisma.$exists.post({ id, restUser: { id: ruser.id } });
+            const { id, name, info, phone, location, files } = args;
+            const rest = await prisma.$exists.rest({ id });
             if(rest){
-                prisma.updateRest({
+                return prisma.updateRest({
                     data: {
-                        name,info,phone,
+                        name,info,phone,files,
                         location: {
                             create: location
                         }

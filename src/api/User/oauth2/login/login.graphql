@@ -1,0 +1,6 @@
+type Mutation{
+    login(
+        provider: Provider!
+        id: String!
+    ): String!
+}

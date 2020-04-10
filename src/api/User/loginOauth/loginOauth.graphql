@@ -1,6 +1,0 @@
-type Mutation{
-    loginOauth(
-        provider: String!
-        token: String!
-    ): String!
-}

@@ -2,20 +2,20 @@ import { prisma } from "../../../../generated/prisma-client";
 
 export default{
     Mutation: {
-        createCoupon: async (_, { restId }, { request, isAuthenticated}) => {
+        createCoupon: async (_, { restId }, { request, isAuthenticated }) => {
             isAuthenticated(request);
             const { user } = request;
-            const couponInput = await prisma.rest({id: restId}).couponInput()
-            if(couponInput){
+            const couponForm = prisma.rest({ id: restId }).service();
+            const expireAt = new Date(Date.now() + couponForm.validTime * 3600 * 1000).toISOString()
+            if(couponForm){
                 return prisma.createCoupon({
-                    ...couponInput,
-                    id: null,
-                    rest: {
-                        connect: { id: restId }
+                    form: {
+                        connect: { id: couponForm.id }
                     },
                     user: {
                         connect: { id: user.id }
-                    }
+                    },
+                    expireAt
                 })
             } else {
                 throw Error('잘못된 요청입니다');
