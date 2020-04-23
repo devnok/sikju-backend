@@ -1,10 +1,7 @@
-import { prisma } from "../../../../generated/prisma-client";
+import { prisma } from "../../../lib"
 
 export default{
     Query: {
-        me: (_, args, { request }) => {
-            console.log(request.user);
-            return request.user;
-        }
+        me: async (_, args, { request }) => request.user
     }
 }

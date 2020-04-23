@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import { Strategy as FacebookStrategy } from 'passport-facebook'
-import { prisma } from '../generated/prisma-client';
+import { prisma } from './lib';
 
 const opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -10,7 +10,7 @@ const opts = {
 const verifyUser = async (payload, done) => {
     try{
         const { id } = payload;
-        const user = await prisma.user({ id });
+        const user = await prisma.user.findOne({ where: { id } });
         if(user){
             return done(null, user);
         } else {

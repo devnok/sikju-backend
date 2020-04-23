@@ -1,0 +1,6 @@
+type Query{
+    getEvents(
+        page: Int
+        take: Int
+    ): [Event!]!
+}

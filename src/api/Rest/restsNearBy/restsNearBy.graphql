@@ -1,0 +1,6 @@
+type Query{
+    restsNearBy(
+        location: LocationInput!
+        distance: Int
+    ): [Rest!]!
+}

@@ -1,11 +1,8 @@
 type Mutation{
     createAccount(
         provider: Provider!
-        id: String!
-        phone: String!
+        token: String!
+        code: String!
         nickname: String!
-        gender: Gender
-        email: String
-        name: String
     ): User!
 }

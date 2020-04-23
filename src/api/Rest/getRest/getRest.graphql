@@ -1,3 +1,5 @@
 type Query{
-    getRest(restId: String!): Rest!
+    getRest(
+        id: Int!
+    ): Rest!
 }

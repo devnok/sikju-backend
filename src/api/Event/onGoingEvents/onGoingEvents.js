@@ -1,18 +1,10 @@
-import { prisma } from "../../../../generated/prisma-client";
+import { prisma } from "../../../lib";
 
 export default {
     Query: {
         onGoingEvents: async () => {
-        const events = await prisma.events({
-            where: {
-                AND: [
-                    { startAt_lte: new Date().toISOString() },
-                    { expireAt_gt: new Date().toISOString() }
-                ]
-            }
-        })
-        console.log(events.length);
-        return events;
+            const events = await prisma.raw`select * from "Event" WHERE "expireAt" > now()`
+            return events;
         }
     }
 }

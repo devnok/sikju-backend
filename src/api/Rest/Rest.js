@@ -1,33 +1,25 @@
-import { prisma } from "../../../generated/prisma-client";
-import { coordsToAddress } from '../../utils';
+import { prisma } from "../../lib";
 
 export default {
     Rest: {
-        location: ({id}) => prisma.rest({id}).location(),
-        likes: ({id}) => prisma.rest({id}).likes(),
-        files: ({id}) => prisma.rest({id}).files(),
-        isLiked: ( {id}, _, { request }) => {
+        location: ({id}) => prisma.location.findOne({ where: { restId: id }}),
+        likes: ({id}) => prisma.like.findMany({ where: { restId: id }}),
+        files: ({id}) => prisma.file.findMany({ where: { restId: id }}),
+        isLiked: async ( {id}, _, { request }) => {
             const { user } = request;
             if(!user) return false;
-            return prisma.$exists.like({
-              AND: [
-                {
-                  user: { id: user.id }
-                },
-                {
-                  rest: { id }
+            const like = await prisma.like.findOne({
+              where: {
+                restId_userId:{
+                  userId: user.id,
+                  restId: id
                 }
-              ]
+              }
             });
+            return !!like;
           },
-        service: ({id}) => prisma.rest({id}).service(),
-        coupons: ({id}) => prisma.rest({id}).coupons(),
-        likeCount: ({id}) =>
-            prisma
-                .likesConnection({
-                    where: { rest: { id } }
-                })
-                .aggregate()
-                .count()
+        service: ({id}) => prisma.service.findOne({ where: { restId: id }}),
+        coupons: ({id}) => prisma.coupon.findMany({ where: { restId: id }}),
+        likeCount: ({id}) => prisma.like.count({ where: { restId: id}})
     }
 }

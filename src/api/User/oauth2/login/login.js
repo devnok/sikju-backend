@@ -1,18 +1,22 @@
 import { generateToken } from "../../../../utils";
-import { prisma } from "../../../../../generated/prisma-client";
-import { getProfile } from "../../../../lib";
+import { getProfile, prisma } from "../../../../lib";
 
 export default {
     Mutation: {
         login: async (_, args) => {
-            const { provider, id } = args;
-            const pv = provider.toLowerCase();
-            const userInput = { [pv+"Id"]: id }
-            const user = await prisma.accountLink(userInput).user();
-            if(!user){
+            const { provider, token } = args;
+            let { id } = await getProfile(args);
+            id = String(id);
+            const link = await prisma.accountLink
+                .findOne({
+                    where: {
+                        provider_id: { provider, id }
+                    }
+                })
+            if(!link){
                 throw Error("Register First")
             }
-            return generateToken(user.id);
+            return generateToken(link.userId);
         }
     }
 }

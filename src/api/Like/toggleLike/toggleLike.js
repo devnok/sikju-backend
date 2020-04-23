@@ -1,42 +1,38 @@
-import { isAuthenticated } from "../../../middlewares";
-import { prisma } from "../../../../generated/prisma-client";
+import { prisma } from "../../../lib";
 
 export default {
   Mutation: {
-    toggleLike: async (_, args, { request }) => {
+    toggleLike: async (_, args, { request, isAuthenticated }) => {
       isAuthenticated(request);
       const { restId } = args;
       const { user } = request;
       const filterOptions = {
-        AND: [
-          {
-            user: { id: user.id }
-          },
-          {
-            rest: { id: restId }
+        where: {
+          restId_userId: {
+            restId,
+            userId: user.id
           }
-        ]
-      };
+        }
+      }
       try {
-        const existingLike = await prisma.$exists.like(filterOptions);
+        const existingLike = await prisma.like.findOne(filterOptions);
         if (existingLike) {
-          await prisma.deleteManyLikes(filterOptions);
+          await prisma.like.delete(filterOptions);
         } else {
-          await prisma.createLike({
-            user: {
-              connect: {
-                id: user.id
-              }
-            },
-            rest: {
-              connect: {
-                id: restId
+          const like = await prisma.like.create({
+            data: {
+              user: {
+                connect: { id: user.id }
+              },
+              rest: {
+                connect: { id: restId }
               }
             }
           });
         }
         return true;
-      } catch {
+      } catch(e) {
+        console.log(e);
         return false;
       }
     }

@@ -1,8 +1,7 @@
-import { prisma } from "../../../generated/prisma-client";
+import { prisma } from "../../lib";
 
-export default {
-  Like: {
-    rest: ({ id }) => prisma.like({ id }).rest(),
-    user: ({ id }) => prisma.like({ id }).user()
-  }
-};
+export default{
+    Like: {
+        rest: ({restId}) => prisma.rest.findOne({ where: { id: restId }})
+    }
+}

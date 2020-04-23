@@ -1,10 +1,7 @@
-import { prisma } from "../../../../generated/prisma-client";
+import { prisma } from "../../../lib";
 
 export default {
     Query: {
-        getRest: (_,args) => {
-            const { restId } =  args;
-            return prisma.rest({ id: restId });
-        }
+        getRest: (_, { id }) => prisma.rest.findOne({ where: { id }})
     }
 }

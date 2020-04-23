@@ -1,9 +1,10 @@
-import { prisma } from "../../../generated/prisma-client";
+import { prisma } from "../../lib";
 
 export default {
     User: {
-        link: ({id}) => prisma.user({ id }).link(),
-        coupons: ({id}) => prisma.user({ id }).coupons(),
-        likes: ({id}) => prisma.user({ id }).likes()
+        likes: ({id}) => prisma.like.findMany({ where: { userId: id }}),
+        coupons: ({id}) => prisma.coupon.findMany({ where: { userId: id }}),
+        couponCount: ({id}) => prisma.coupon.count({ where: { userId: id }}),
+        profile: ({id}) => prisma.profile.findOne({where: { userId: id }}),
     }
 }

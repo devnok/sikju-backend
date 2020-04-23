@@ -1,26 +1,38 @@
 type User {
   id: ID!
   createdAt: String!
-  nickname: String
+  nickname: String!
   phone: String!
   profile: Profile!
-  link: AccountLink
+  links: [AccountLink!]!
   coupons: [Coupon!]!
   likes: [Like!]!
+  couponCount: Int!
+}
+type Authentication {
+  createdAt: String!
+  expireAt: String!
+  provider: Provider!
+  id: String!
+  code: String!
+  phone: String!
+  limit: Int!
 }
 enum Provider{
     KAKAO
     FACEBOOK
 }
 type AccountLink{
-  id: ID!
   user: User!
-  kakaoId: String
-  facebookId: String
+  userId: ID!
+  token: String!
+  provider: Provider!
+  id: String!
 }
 type Profile{
-  id: ID!
+  id: Int!
   user: User!
+  userId: ID!
   name: String
   birthday: String
   gender: Gender
@@ -31,8 +43,9 @@ enum Gender{
   FEMALE
 }
 type Rest{
-  id: ID!
+  id: Int!
   location: Location!
+  address: String
   name: String!
   phone: String
   desc: String
@@ -40,51 +53,66 @@ type Rest{
   closeAt: String
   files: [File!]!
   thumbnail: String!
-  service: CouponForm!
+  service: Service
   likes: [Like!]!
   isLiked: Boolean
   coupons: [Coupon!]!
   likeCount: Int!
+  distance: Float
 }
 type Location {
-  id: ID!
+  rest: Rest!
+  restId: Int!
   longitude: Float!
-  latitdue: Float!
+  latitude: Float!
+}
+type Notice {
+  id: Int!
+  tag: String
+  createdAt: String!
+  title: String!
+  body: String!
 }
 type File{
-  id: ID!
+  id: Int!
   url: String!
   rest: Rest!
+  restId: Int!
 }
 input LocationInput {
   longitude: Float!
   latitude: Float!
 }
-type CouponForm {
-  id: ID!
+type Service {
+  id: Int!
   rest: Rest
+  restId: Int!
   service: String!
   desc: String!
   warn: String
   validTime: Int!
 }
 type Coupon {
-  id: ID!
+  id: Int!
   rest: Rest!
+  restId: Int!
   service: String!
   desc: String!
   warn: String
   user: User!
+  userId: ID!
   createdAt: String!
   expireAt: String!
 }
 type Like {
-  id: ID!
+  id: Int!
   user: User!
+  userId: ID!
   rest: Rest!
+  restId: Int!
 }
 type Event {
-  id: ID!
+  id: Int!
   url: String!
   thumbnail: String!
   createdAt: String!

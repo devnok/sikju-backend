@@ -1,23 +1,17 @@
-import { prisma } from "../../../../generated/prisma-client";
+import { prisma } from "../../../lib";
 
 export default{
     Mutation: {
-        createRest: (_, args,{request, isAuthenticated}) => {
-            isAuthenticated(request);
-            const { id } = request.user;
-            const { name, info = "", phone, location } = args;
-            const rerstUserForm = {
-                create: {
-                    user: { connect: { id }}
+        createRest: (_, args) => {
+            const { name, desc, phone, thumbnail, location } = args;
+            return prisma.rest.create({
+                data: {
+                    name, desc, phone, thumbnail,
+                    location: {
+                        create: location
+                    }
                 }
-            }
-            return prisma.createRest({
-                name, info, phone,
-                location: {
-                    create: location
-                },
-                restUser: rerstUserForm
-            });
+            })
         }
     }
 }

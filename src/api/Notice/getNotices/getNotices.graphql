@@ -1,0 +1,6 @@
+type Query{
+    getNotices(
+        page: Int
+        take: Int
+    ): [Notice!]!
+}

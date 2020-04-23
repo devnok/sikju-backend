@@ -1,0 +1,22 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "DeleteField",
+      "model": "AccountLink",
+      "field": "id"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "AccountLink",
+      "field": "kakaoId",
+      "arity": "Optional"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "AccountLink",
+      "field": "facebookId",
+      "arity": "Optional"
+    }
+  ]
+}
