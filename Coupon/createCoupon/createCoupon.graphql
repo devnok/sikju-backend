@@ -1,5 +1,0 @@
-type Mutation{
-    createCoupon(
-        restId: String!
-    ): Coupon!
-}

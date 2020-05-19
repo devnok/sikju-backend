@@ -1,3 +1,0 @@
-type Subscription{
-    newBid(auctionId: String!): Bid
-}

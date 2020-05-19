@@ -13,7 +13,7 @@ export default {
                         provider_id: { provider, id }
                     }
                 })
-            if(!link){
+            if (!link) {
                 throw Error("Register First")
             }
             return generateToken(link.userId);

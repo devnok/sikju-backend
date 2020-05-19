@@ -1,0 +1,6 @@
+type Query{
+  searchRest(
+    term: String!
+    location: LocationInput!
+  ): [Rest!]!
+}

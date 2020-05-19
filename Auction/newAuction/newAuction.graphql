@@ -1,3 +1,0 @@
-type Subscription{
-    newAuction(location: LocationInput!): Auction
-}

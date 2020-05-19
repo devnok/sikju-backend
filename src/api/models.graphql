@@ -8,6 +8,17 @@ type User {
   coupons: [Coupon!]!
   likes: [Like!]!
   couponCount: Int!
+  notifications: [Notification!]!
+  notified: Boolean!
+}
+
+type Notification {
+  id: Int!
+  title: String
+  text:  String!
+  tag: String!
+  link: String
+  users: [User!]!
 }
 type Authentication {
   createdAt: String!

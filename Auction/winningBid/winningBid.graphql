@@ -1,3 +1,0 @@
-type Mutation{
-    winningBid(id: String!): Boolean!
-}

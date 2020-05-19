@@ -1,0 +1,8 @@
+type Query{
+    editNotice(
+        id: Int!
+        tag: String
+        title: String
+        body: String
+    ): Notice!
+}

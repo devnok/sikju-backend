@@ -1,0 +1,7 @@
+type Mutation{
+    createNotice(
+        tag: String
+        title: String!
+        body: String!
+    ): Notice!
+}

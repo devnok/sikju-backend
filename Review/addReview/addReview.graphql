@@ -1,3 +1,0 @@
-type Mutation{
-    addReview(restId: String!, rating: Int!): Review!
-}

@@ -9,10 +9,11 @@ datasource db {
 
 model AccountLink {
   provider Provider
-  token String
-  id String
-  userId     String  @unique
-  user       User    @relation(fields: [userId], references: [id])
+  token    String
+  id       String
+  userId   String   @unique
+  user     User     @relation(fields: [userId], references: [id])
+
   @@id([provider, id])
 }
 
@@ -74,17 +75,17 @@ model Profile {
 
 model Rest {
   openingHours String?
-  desc      String
-  id        Int       @default(autoincrement()) @id
-  name      String
-  phone     String
-  thumbnail String
-  coupons    Coupon[]
-  File      File[]
-  Like      Like[]
-  location  Location
-  address String?
-  Service   Service?
+  desc         String
+  id           Int      @default(autoincrement()) @id
+  name         String
+  phone        String
+  thumbnail    String
+  coupons      Coupon[]
+  File         File[]
+  Like         Like[]
+  location     Location
+  address      String?
+  Service      Service?
 }
 
 model Service {
@@ -97,32 +98,47 @@ model Service {
 }
 
 model User {
-  createdAt   DateTime     @default(now())
-  id          String       @id @default(cuid())
-  nickname    String       @unique
-  phone       String       @unique
-  links       AccountLink[]
-  coupons     Coupon[]
-  likes       Like[]
-  profile     Profile
+  createdAt     DateTime       @default(now())
+  id            String         @default(cuid()) @id
+  nickname      String         @unique
+  phone         String         @unique
+  links         AccountLink[]
+  coupons       Coupon[]
+  likes         Like[]
+  profile       Profile
+  notifications Notification[] @relation(references: [id])
+  notified      Boolean        @default(true)
 }
+
+model Notification {
+  id    Int     @default(autoincrement()) @id
+  title String?
+  text  String
+  tag   String
+  link  String?
+  users User[]  @relation(references: [id])
+}
+
 model Authentication {
-  code String
-  limit Int @default(5)
+  code      String
+  limit     Int      @default(5)
   createdAt DateTime @default(now())
-  expireAt DateTime
-  provider Provider
-  phone String
-  id String
-  @@id([provider,id])
+  expireAt  DateTime
+  provider  Provider
+  phone     String
+  id        String
+
+  @@id([provider, id])
 }
+
 model Notice {
-  id        Int       @default(autoincrement()) @id
-  tag String?
+  id        Int      @default(autoincrement()) @id
+  tag       String?
   createdAt DateTime @default(now())
-  title String
-  body String
+  title     String
+  body      String
 }
+
 model spatial_ref_sys {
   auth_name String?
   auth_srid Int?
@@ -130,10 +146,12 @@ model spatial_ref_sys {
   srid      Int     @id
   srtext    String?
 }
+
 enum Provider {
   KAKAO
   FACEBOOK
 }
+
 enum Gender {
   FEMALE
   MALE

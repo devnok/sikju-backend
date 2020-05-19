@@ -8,21 +8,21 @@ const opts = {
     secretOrKey: process.env.JWT_SECRET
 }
 const verifyUser = async (payload, done) => {
-    try{
+    try {
         const { id } = payload;
         const user = await prisma.user.findOne({ where: { id } });
-        if(user){
+        if (user) {
             return done(null, user);
         } else {
             return done(null, false);
         }
-    }catch(err){
-        return done(err,false);
+    } catch (err) {
+        return done(err, false);
     }
 }
 export const authenticateJwt = (req, res, next) =>
     passport.authenticate("jwt", { session: false }, (err, user) => {
-        if(user){
+        if (user) {
             req.user = user;
         }
         next();
