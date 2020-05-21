@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 export const generateToken = id => jwt.sign({ id }, process.env.JWT_SECRET)
 
@@ -12,7 +12,7 @@ export const deg2Rad = deg => deg * PI / 180
 const randInt = range => Math.floor(Math.random() * range)
 export const generateSecret = n => {
     const arr = new Array(n);
-    for(let i=0;i<n;i++) arr[i] = randInt(10);
+    for (let i = 0; i < n; i++) arr[i] = randInt(10);
     return arr.join('')
 }
 export const lnlrange = (location, distance) => { // x, y는 경위도로 나타내어짐.
