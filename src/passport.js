@@ -1,6 +1,5 @@
 import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
-import { Strategy as FacebookStrategy } from 'passport-facebook'
 import { prisma } from './lib';
 
 const opts = {
